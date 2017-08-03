@@ -14,3 +14,6 @@
 
 - include: replica.yml
   when: inventory_hostname in freeipa_replicas
+
+- include: ssl.yml
+  become: yes
