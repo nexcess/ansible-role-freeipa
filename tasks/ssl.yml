@@ -18,25 +18,5 @@
     mode: '0640'
   register: ssl_crt_file
 
-- name: Create SSL install flag
-  file:
-    state: touch
-    path: /root/mellon-ssl.install-flag
-  when: ssl_crt_file.changed or ssl_key_file.changed
-
-- name: Check for SSL install flag
-  stat:
-    path: /root/mellon-ssl.install-flag
-  register: ssl_install_flag
-
-- name: Install the cert
-  shell: >
-    ipa-server-certinstall -w -d /root/mellon-ssl.key /root/mellon-ssl.crt
-  when: ssl_install_flag.stat.exists
-  register: ssl_install_cmd
-
-- name: Remove the SSL install flag
-  file:
-    state: absent
-    path: /root/mellon-ssl.install-flag
-  when: ssl_install_cmd is defined and ssl_install_cmd.changed
+- debug:
+    msg: "Install the certs manually with `ipa-server-certinstall -w -d /root/mellon-ssl.key /root/mellon-ssl.crt && systemctl restart httpd && systemctl restart dirsrv@MELON-PROD-V1.NEXCESS.NET`"
