@@ -1,0 +1,22 @@
+---
+
+- name: Create SSL key file
+  copy:
+    dest: /root/mellon-ssl.key
+    content: "{{ vault_mellon_ssl_key }}"
+    owner: root
+    group: root
+    mode: '0640'
+  register: ssl_key_file
+
+- name: Create SSL cert file
+  copy:
+    dest: /root/mellon-ssl.crt
+    content: "{{ vault_mellon_ssl_crt }}"
+    owner: root
+    group: root
+    mode: '0640'
+  register: ssl_crt_file
+
+- debug:
+    msg: "Install the certs manually with `ipa-server-certinstall -w -d /root/mellon-ssl.key /root/mellon-ssl.crt && systemctl restart httpd && systemctl restart dirsrv@MELLON-PROD-V1.NEXCESS.NET`"

@@ -1,15 +1,13 @@
 ---
+
 - name: Install the master server
-  shell: ipa-server-install -r {{ ansible_domain | upper }} -n {{ ansible_domain }} -p {{ directory_admin_password }}  -U -a {{ kerberos_admin_password }} --ip-address {{ ansible_default_ipv4.address }}
+  shell: >
+    ipa-server-install -U \
+      -r {{ freeipa_domain | upper }} -n {{ freeipa_domain }} \
+      -p {{ directory_admin_password | quote }} -a {{ kerberos_admin_password | quote }} \
+      --hostname {{ inventory_hostname }} --ip-address {{ frontnet_addr }} \
+      -N --setup-dns --auto-forwarders --forward-policy only
   args:
     creates: /etc/ipa/default.conf
-  no_log: True
-
-# TODO requires EL 7.2
-- name: Open firewall for replication
-  firewalld:
-    service: freeipa-replication
-    permanent: true
-    state: enabled
-    immediate: yes
-  when: "(ansible_distribution == 'Fedora' or ansible_distribution_major_version == '7') and {{ freeipa_replicas |length }} > 0"
+  become: yes
+  # no_log: True
