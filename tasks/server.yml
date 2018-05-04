@@ -7,7 +7,7 @@
   with_items:
     - ipa-server
     - ipa-server-dns
-  become: yes
+  become: true
 
 - include: master.yml
   when: inventory_hostname == freeipa_master
@@ -16,5 +16,5 @@
   when: inventory_hostname in freeipa_replicas
 
 - include: ssl.yml
-  become: yes
+  become: true
   when: vault_mellon_ssl_crt is defined
