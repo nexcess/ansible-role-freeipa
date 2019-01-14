@@ -3,16 +3,16 @@
 - name: Install the replica
   shell: >
     ipa-replica-install -U
-      -r "{{ freeipa_domain | upper }}"
-      -n "{{ freeipa_domain }}"
-      --server "{{ freeipa_master }}"
-      -P "{{ directory_admin_username | quote }}"
-      -w "{{ kerberos_admin_password | quote }}"
-      --hostname "{{ inventory_hostname }}"
-      --ip-address "{{ frontnet_addr }}"
-      -N --setup-dns --auto-forwarders --forward-policy only
-      --setup-ca
-      --skip-conncheck
+    -r "{{ freeipa_domain | upper }}"
+    -n "{{ freeipa_domain }}"
+    --server "{{ freeipa_master }}"
+    -P "{{ directory_admin_username | quote }}"
+    -w "{{ kerberos_admin_password | quote }}"
+    --hostname "{{ inventory_hostname }}"
+    --ip-address "{{ frontnet_addr }}"
+    -N --setup-dns --auto-forwarders --forward-policy only
+    --setup-ca
+    --skip-conncheck
   args:
     creates: "/etc/ipa/default.conf"
   become: true
