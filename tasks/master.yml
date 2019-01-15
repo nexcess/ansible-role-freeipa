@@ -3,13 +3,13 @@
 - name: Install the master server
   shell: >
     ipa-server-install -U
-      -r "{{ freeipa_domain | upper }}"
-      -n "{{ freeipa_domain }}"
-      -p "{{ directory_admin_password | quote }}"
-      -a "{{ kerberos_admin_password | quote }}"
-      --hostname "{{ inventory_hostname }}"
-      --ip-address "{{ frontnet_addr }}"
-      -N --setup-dns --auto-forwarders --forward-policy only
+    -r "{{ freeipa_domain | upper }}"
+    -n "{{ freeipa_domain }}"
+    -p "{{ directory_admin_password | quote }}"
+    -a "{{ kerberos_admin_password | quote }}"
+    --hostname "{{ inventory_hostname }}"
+    --ip-address "{{ frontnet_addr }}"
+    -N --setup-dns --auto-forwarders --forward-policy only
   args:
     creates: "/etc/ipa/default.conf"
   become: true
